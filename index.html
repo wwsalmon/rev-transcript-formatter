@@ -27,12 +27,13 @@
                 const lines = transcript.split("\n");
                 const parts = lines.map(line => line.split("    "));
                 let output = "";
-
+            
                 for (const i in parts) {
                     const part = parts[i];
-                    const isSameSpeaker = (+i !== 0) && parts[i - 1][0] === part[0];
-                    if (isSameSpeaker) output += ` ${part[2]}`;
-                    else output += `\n\n${part[0]}:\n${part[2]}`;
+                    if (!part[1] || !part[2]) break;
+                    const isSameSpeaker = (+i !== 0) && parts[+i - 1][0] === part[0];
+                    if (isSameSpeaker) output += `${part[2]}\n\n`;
+                    else output += `${part[0]}, ${part[1]}:\n${part[2]}\n\n`;
                 }
 
                 transcriptOutBox.value = output;
